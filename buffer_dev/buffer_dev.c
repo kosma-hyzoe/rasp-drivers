@@ -68,8 +68,7 @@ static int __init ModuleInit(void)
     }
 
     /* create device file */
-    if (device_create(my_class, NULL, my_device_nr, NULL, DRIVER_NAME) ==
-        NULL) {
+    if (!device_create(my_class, NULL, my_device_nr, NULL, DRIVER_NAME)) {
         printk("Can not create device file!\n");
         goto FileError;
     }
