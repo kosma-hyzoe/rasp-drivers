@@ -50,7 +50,8 @@ static int driver_close(struct inode *device_file, struct file *instance)
 }
 
 static struct file_operations fops = {
-    .owner = THIS_MODULE, .open = driver_open, .release = driver_close};
+    .owner = THIS_MODULE, .open = driver_open, .release = driver_close,
+    .read = read, .write = write};
 
 static int major;
 
