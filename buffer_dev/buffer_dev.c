@@ -18,7 +18,7 @@ static struct cdev my_device;
 static char buffer[255];
 static int buffer_pointer = 0;
 
-static ssize_t read(struct file *fp, char *user_buffer, size_t count,
+static ssize_t driver_read(struct file *File, char *user_buffer, size_t count,
                     loff_t *offs)
 {
     int to_copy = min(count, buffer_pointer);
@@ -27,7 +27,7 @@ static ssize_t read(struct file *fp, char *user_buffer, size_t count,
     return to_copy - not_copied;
 }
 
-static int write(struct file *fp, const char *user_buffer, size_t count,
+static int write(struct file *File, const char *user_buffer, size_t count,
                  loff_t *offs)
 {
     int to_copy = min(count, sizeof(buffer));
@@ -50,8 +50,12 @@ static int driver_close(struct inode *device_file, struct file *instance)
 }
 
 static struct file_operations fops = {
-    .owner = THIS_MODULE, .open = driver_open, .release = driver_close,
-    .read = read, .write = write};
+    .owner = THIS_MODULE,
+    .open = driver_open,
+    .release = driver_close,
+    .read = driver_read,
+    .write = driver_write
+};
 
 static int major;
 
