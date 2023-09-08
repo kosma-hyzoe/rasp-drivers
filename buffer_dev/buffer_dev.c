@@ -22,7 +22,7 @@ static char NO[1] = {'n'};
 #define DRIVER_CLASS DUMMY_CLASS
 
 static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, loff_t *offs) {
-	if (buffer_pos = 0)
+	if (buffer_pos == 0)
 		return 1 - copy_to_user(user_buffer, NO, 1);
 
 	int to_copy = min(count, buffer_pos);
