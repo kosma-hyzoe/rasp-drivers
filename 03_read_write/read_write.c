@@ -85,7 +85,7 @@ static struct file_operations fops = {
 /**
  * @brief This function is called, when the module is loaded into the kernel
  */
-static int __init module_init(void) {
+static int __init ModuleInit(void) {
 	int retval;
 	printk("Hello, Kernel!\n");
 
@@ -93,11 +93,8 @@ static int __init module_init(void) {
 	if( alloc_chrdev_region(&my_device_nr, 0, 1, DRIVER_NAME) < 0) {
 		printk("Device Nr. could not be allocated!\n");
 		return -1;
-	} else {
-		printk("alloc_chrdev_region: %d\n", my_device_nr);
 	}
-	printk("read_write - Device Nr. Major: %d, Minor: %d was registered!\n",
-            my_device_nr >> 20, my_device_nr && 0xfffff);
+	printk("read_write - Device Nr. Major: %d, Minor: %d was registered!\n", my_device_nr >> 20, my_device_nr && 0xfffff);
 
 	/* Create device class */
 	if((my_class = class_create(THIS_MODULE, DRIVER_CLASS)) == NULL) {
@@ -141,7 +138,7 @@ static void __exit ModuleExit(void) {
 	printk("Goodbye, Kernel\n");
 }
 
-module_init(module_init);
+module_init(ModuleInit);
 module_exit(ModuleExit);
 
 
