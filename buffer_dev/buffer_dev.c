@@ -27,7 +27,7 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count,
     return to_copy - not_copied;
 }
 
-static int write(struct file *File, const char *user_buffer, size_t count,
+static int driver_write(struct file *File, const char *user_buffer, size_t count,
                  loff_t *offs)
 {
     int to_copy = min(count, sizeof(buffer));
