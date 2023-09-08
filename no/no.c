@@ -31,7 +31,12 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, l
 }
 
 static ssize_t driver_write(struct file *File, const char *user_buffer, size_t count, loff_t *offs) {
-	int to_copy = min(count, sizeof(buffer));
+	if (to_copy == 0) {
+        buffer_pos = 0;
+        return 0;
+    }
+
+    int to_copy = min(count, sizeof(buffer));
 	int not_copied = copy_from_user(buffer, user_buffer, to_copy);
 	buffer_pos = to_copy;
 
