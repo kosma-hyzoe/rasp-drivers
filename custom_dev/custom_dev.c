@@ -26,7 +26,7 @@ static struct file_operations fops = {
 
 int major;
 
-static int __init ModuleInit(void)
+static int __init module_init(void)
 {
     int retval = register_chrdev(0, "custom_dev", &fops);
     if (retval < 0) {
@@ -42,5 +42,5 @@ static void __exit ModuleExit(void)
     unregister_chrdev(major, "custom_dev");
 }
 
-module_init(ModuleInit);
+module_init(module_init);
 module_exit(ModuleExit);
