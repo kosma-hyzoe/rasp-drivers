@@ -38,9 +38,23 @@ static ssize_t driver_write(struct file *File, const char *user_buffer, size_t c
 	return to_copy - not_copied;
 }
 
+static int driver_open(struct inode *device_file, struct file *instance) {
+	printk("dev_nr - open was called!\n");
+	return 0;
+}
+
+/**
+ * @brief This function is called, when the device file is opened
+ */
+static int driver_close(struct inode *device_file, struct file *instance) {
+	printk("dev_nr - close was called!\n");
+	return 0;
+}
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
+	.open = driver_open,
+	.release = driver_close,
 	.read = driver_read,
 	.write = driver_write
 };
