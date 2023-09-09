@@ -33,8 +33,9 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, l
 static ssize_t driver_write(struct file *File, const char *user_buffer, size_t count, loff_t *offs) {
     int to_copy, not_copied;
 	if (count == 1) {
-        to_copy = min(2, sizeof(NO));
+        to_copy = 3;
         not_copied = copy_from_user(buffer, NO, to_copy);
+        printk("buffer: '%s'", buffer);
     } else {
         int to_copy = min(count, sizeof(buffer));
         int not_copied = copy_from_user(buffer, user_buffer, to_copy);
