@@ -31,36 +31,21 @@ static ssize_t driver_read(struct file *File, char *user_buffer, size_t count, l
 }
 
 static ssize_t driver_write(struct file *File, const char *user_buffer, size_t count, loff_t *offs) {
-    printk("buffer: %s  count: %d", user_buffer, count); 
-	/* if (count == 1) { */
-        /* buffer_pos = 0; */
-        /* return 0; */
-    /* } */
+    int to_copy, not_copied;
+	if (count == 1) {
+        to_copy = min(2, sizeof(NO));
+        not_copied = copy_from_user(buffer, NO, to_copy);
+    } else {
+        int to_copy = min(count, sizeof(buffer));
+        int not_copied = copy_from_user(buffer, user_buffer, to_copy);
+    }
 
-    int to_copy = min(count, sizeof(buffer));
-	int not_copied = copy_from_user(buffer, user_buffer, to_copy);
 	buffer_pos = to_copy;
-
 	return to_copy - not_copied;
-}
-
-static int driver_open(struct inode *device_file, struct file *instance) {
-	printk("dev_nr - open was called!\n");
-	return 0;
-}
-
-/**
- * @brief This function is called, when the device file is opened
- */
-static int driver_close(struct inode *device_file, struct file *instance) {
-	printk("dev_nr - close was called!\n");
-	return 0;
 }
 
 static struct file_operations fops = {
 	.owner = THIS_MODULE,
-	/* .open = driver_open, */
-    /* .release = driver_close, */
 	.read = driver_read,
 	.write = driver_write
 };
